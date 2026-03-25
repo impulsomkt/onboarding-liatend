@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LiAtend — Configuração da sua IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,700&family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;
+  --bg2:#0F0F0F;
+  --bg3:#161616;
+  --gold:#C9A84C;
+  --gold-l:#E8C96A;
+  --gold-dim:rgba(201,168,76,0.12);
+  --gold-b:rgba(201,168,76,0.2);
+  --gold-b2:rgba(201,168,76,0.35);
+  --silver:#A8A8B3;
+  --warm:#F2F0EB;
+  --orange:#E87722;
+  --orange-h:#FF9A45;
+  --cyan:#00C2CB;
+  --border:rgba(255,255,255,0.06);
+  --border2:rgba(255,255,255,0.1);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--warm);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:999;opacity:.35;
+}
+
+/* HEADER */
+.header{
+  background:rgba(8,8,8,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 40px;height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-svg{filter:drop-shadow(0 0 6px rgba(201,168,76,.4))}
+.logo-text{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:-0.02em;color:var(--warm)}
+.logo-text span{color:var(--gold)}
+.header-right{display:flex;align-items:center;gap:16px}
+.step-pill{
+  display:flex;align-items:center;gap:6px;
+  background:var(--gold-dim);border:1px solid var(--gold-b);
+  border-radius:100px;padding:.35rem 1rem;
+  font-size:.78rem;font-family:'Outfit',sans-serif;font-weight:600;
+  color:var(--gold);letter-spacing:.04em;
+}
+.step-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:dp 2s infinite}
+@keyframes dp{0%,100%{opacity:1}50%{opacity:.3;transform:scale(.7)}}
+
+/* PROGRESS */
+.progress-wrap{position:sticky;top:68px;z-index:99;background:var(--bg);height:2px}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--gold),var(--gold-l));
+  width:0%;
+  transition:width .6s cubic-bezier(.25,.46,.45,.94);
+}
+
+/* MAIN */
+.main{max-width:720px;margin:0 auto;padding:60px 24px 120px}
+
+/* INTRO */
+.intro{text-align:center;margin-bottom:60px;animation:fu .7s both}
+@keyframes fu{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.intro-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--gold-dim);border:1px solid var(--gold-b);
+  border-radius:100px;padding:.35rem 1rem;
+  font-size:.75rem;font-family:'Outfit',sans-serif;font-weight:600;
+  color:var(--gold);letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:24px;
+}
+.intro h1{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-weight:700;
+  font-size:clamp(2.5rem,5vw,4rem);
+  letter-spacing:-0.03em;line-height:1.05;
+  margin-bottom:16px;
+}
+.intro h1 em{font-style:normal;color:var(--gold)}
+.intro p{
+  font-size:1rem;color:var(--silver);line-height:1.75;
+  max-width:500px;margin:0 auto 24px;font-weight:300;
+}
+.time-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(232,119,34,.1);border:1px solid rgba(232,119,34,.25);
+  border-radius:100px;padding:.4rem 1rem;
+  font-size:.8rem;font-family:'Outfit',sans-serif;font-weight:600;color:var(--orange);
+}
+
+/* SECTION */
+.form-section{
+  margin-bottom:40px;
+  animation:fu .6s both;
+}
+.section-header{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:24px;padding-bottom:18px;
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+.section-header::after{
+  content:'';position:absolute;bottom:-1px;left:0;
+  width:0;height:1px;background:var(--gold);
+  transition:width .6s ease;
+}
+.form-section.active .section-header::after{width:60px}
+.section-num{
+  width:38px;height:38px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-weight:800;font-size:.85rem;
+  flex-shrink:0;
+  background:var(--gold-dim);border:1px solid var(--gold-b);color:var(--gold);
+}
+.section-title{
+  font-family:'Outfit',sans-serif;font-weight:700;
+  font-size:1.05rem;letter-spacing:-0.01em;
+}
+.section-sub{font-size:.8rem;color:var(--silver);margin-top:3px}
+
+/* FIELDS */
+.fields-grid{display:grid;gap:16px}
+.fields-2{grid-template-columns:1fr 1fr}
+.field{display:flex;flex-direction:column;gap:7px}
+.field label{
+  font-size:.72rem;font-family:'Outfit',sans-serif;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--silver);
+}
+.field label .req{color:var(--gold)}
+.field .hint{font-size:.73rem;color:rgba(168,168,179,.7);margin-top:-2px;line-height:1.5}
+
+input,textarea,select{
+  width:100%;padding:13px 16px;
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  border-radius:12px;
+  color:var(--warm);
+  font-size:.9rem;font-family:'DM Sans',sans-serif;font-weight:300;
+  outline:none;transition:all .2s;
+  appearance:none;-webkit-appearance:none;
+}
+input:focus,textarea:focus,select:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px var(--gold-dim);
+  background:rgba(22,22,22,.9);
+}
+input::placeholder,textarea::placeholder{color:rgba(168,168,179,.5)}
+textarea{resize:vertical;min-height:100px;line-height:1.6}
+select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C9A84C' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 16px center;
+  padding-right:40px;cursor:pointer;
+}
+select option{background:var(--bg2);color:var(--warm)}
+
+/* OPTIONS */
+.options-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:8px;
+}
+.option-item{position:relative}
+.option-item input[type=radio],
+.option-item input[type=checkbox]{position:absolute;opacity:0;width:0;height:0}
+.option-label{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  border-radius:12px;
+  font-size:.85rem;font-family:'DM Sans',sans-serif;font-weight:400;
+  cursor:pointer;transition:all .2s;user-select:none;
+  color:var(--silver);
+}
+.option-label:hover{border-color:var(--gold-b2);background:var(--gold-dim);color:var(--warm)}
+.option-check{
+  width:18px;height:18px;border-radius:50%;
+  border:1.5px solid var(--border2);
+  margin-left:auto;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.65rem;color:transparent;
+  transition:all .2s;
+}
+.option-item input:checked + .option-label{
+  border-color:var(--gold);
+  background:var(--gold-dim);
+  color:var(--warm);
+}
+.option-item input:checked + .option-label .option-check{
+  background:var(--gold);border-color:var(--gold);color:var(--bg);
+}
+.option-emoji{font-size:1rem}
+
+/* INFO BOX */
+.info-box{
+  display:flex;gap:12px;
+  padding:14px 16px;border-radius:12px;
+  font-size:.85rem;line-height:1.6;
+  margin-top:4px;
+}
+.info-box.info-gold{
+  background:var(--gold-dim);border:1px solid var(--gold-b);color:rgba(201,168,76,.9);
+}
+.info-box.info-orange{
+  background:rgba(232,119,34,.08);border:1px solid rgba(232,119,34,.2);color:rgba(232,119,34,.9);
+}
+.info-box.info-cyan{
+  background:rgba(0,194,203,.08);border:1px solid rgba(0,194,203,.2);color:rgba(0,194,203,.9);
+}
+.info-icon{font-size:1rem;flex-shrink:0;margin-top:1px}
+
+/* PASSWORD STRENGTH */
+.password-strength{display:flex;gap:4px;margin-top:4px}
+.password-strength .bar{height:3px;flex:1;border-radius:2px;background:var(--border2);transition:background .3s}
+.password-strength .bar.weak{background:#e74c3c}
+.password-strength .bar.medium{background:var(--orange)}
+.password-strength .bar.strong{background:#2ecc71}
+
+/* SUBMIT */
+.submit-section{
+  text-align:center;padding:48px 0 0;
+  border-top:1px solid var(--border);
+  margin-top:48px;
+}
+.submit-title{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-weight:700;
+  font-size:2.2rem;letter-spacing:-0.02em;
+  margin-bottom:10px;
+}
+.submit-sub{color:var(--silver);font-size:.95rem;line-height:1.7;margin-bottom:32px;font-weight:300}
+.btn-submit{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--orange),var(--orange-h));
+  color:#fff;border:none;
+  padding:1rem 2.8rem;border-radius:100px;
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:1rem;
+  cursor:pointer;transition:all .3s;
+  position:relative;overflow:hidden;
+}
+.btn-submit::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  transform:translateX(-100%);transition:transform .55s;
+}
+.btn-submit:hover::after{transform:translateX(100%)}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 14px 38px rgba(232,119,34,.38)}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-submit:disabled:hover{box-shadow:none}
+.btn-submit:disabled::after{display:none}
+.submit-note{font-size:.75rem;color:rgba(168,168,179,.5);margin-top:16px}
+
+/* SUCCESS */
+.success-screen{
+  display:none;
+  position:fixed;inset:0;z-index:1000;
+  background:var(--bg);
+  flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:40px;
+}
+.success-icon{
+  width:80px;height:80px;border-radius:50%;
+  background:var(--gold-dim);border:1px solid var(--gold-b);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;margin:0 auto 24px;
+  animation:scaleIn .5s cubic-bezier(.175,.885,.32,1.275) both;
+}
+@keyframes scaleIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+.success-title{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:700;
+  font-size:clamp(2rem,5vw,3.2rem);letter-spacing:-0.025em;margin-bottom:12px;
+}
+.success-sub{color:var(--silver);font-size:1rem;line-height:1.7;max-width:480px;margin:0 auto;font-weight:300}
+.success-gold{
+  display:inline-block;
+  background:linear-gradient(135deg,var(--gold),var(--gold-l));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* GLOW LINE */
+.glow-line{height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.3),transparent);margin:0 0 40px}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+@media(max-width:600px){
+  .fields-2{grid-template-columns:1fr}
+  .header{padding:0 20px}
+  .main{padding:40px 16px 100px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <a href="#" class="logo">
+    <svg class="logo-svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <polygon points="14,2 26,14 14,26 2,14" fill="none" stroke="url(#lg)" stroke-width="1.5"/>
+      <polygon points="14,6 22,14 14,22 6,14" fill="url(#lg2)" opacity=".3"/>
+      <circle cx="14" cy="14" r="2.8" fill="#C9A84C"/>
+      <defs>
+        <linearGradient id="lg" x1="2" y1="2" x2="26" y2="26"><stop stop-color="#C9A84C"/><stop offset="1" stop-color="#E8C96A"/></linearGradient>
+        <linearGradient id="lg2" x1="6" y1="6" x2="22" y2="22"><stop stop-color="#C9A84C"/><stop offset="1" stop-color="#080808"/></linearGradient>
+      </defs>
+    </svg>
+    <span class="logo-text"><span>Lia</span>Atend</span>
+  </a>
+  <div class="header-right">
+    <div class="step-pill">
+      <span class="step-dot"></span>
+      Etapa <span id="currentStep">1</span> de 7
+    </div>
+  </div>
+</header>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+
+<!-- SUCCESS -->
+<div class="success-screen" id="successScreen">
+  <div class="success-icon">✦</div>
+  <h2 class="success-title">Sua <span class="success-gold">Lia</span> está<br>a caminho.</h2>
+  <p class="success-sub">Recebemos tudo certinho. Nossa equipe entra em contato em até 24h para iniciar a configuração. Prepare-se para ter uma vendedora que nunca dorme.</p>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="intro">
+    <div class="intro-badge">
+      <span class="step-dot"></span>
+      Configuração inicial
+    </div>
+    <h1>Configure sua <em>Lia</em><br>em minutos.</h1>
+    <p>Quanto mais contexto você fornecer, mais inteligente e precisa será a sua vendedora. Preencha com calma — vale cada segundo.</p>
+    <div class="time-badge">⏱ Leva em torno de 8 minutos</div>
+  </div>
+
+  <div class="glow-line"></div>
+
+  <form id="onboardingForm" onsubmit="submitForm(event)">
+
+    <!-- SEÇÃO 1: EMPRESA -->
+    <div class="form-section" style="animation-delay:.1s">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div>
+          <div class="section-title">Sobre sua empresa</div>
+          <div class="section-sub">Base para a Lia se apresentar corretamente</div>
+        </div>
+      </div>
+      <div class="fields-grid">
+        <div class="fields-grid fields-2">
+          <div class="field">
+            <label>Nome da empresa <span class="req">*</span></label>
+            <input type="text" name="empresa" placeholder="Ex: Clínica Sorrir, Imob Prime..." required>
+          </div>
+          <div class="field">
+            <label>Seu nome / Responsável <span class="req">*</span></label>
+            <input type="text" name="responsavel" placeholder="Quem configurou" required>
+          </div>
+        </div>
+        <div class="field">
+          <label>Segmento de atuação <span class="req">*</span></label>
+          <select name="segmento" required>
+            <option value="">Selecione o segmento...</option>
+            <option>Saúde (clínicas, dentistas, psicólogos)</option>
+            <option>Varejo / E-commerce</option>
+            <option>Imobiliárias / Loteamentos</option>
+            <option>Educação (escolas, cursos, faculdades)</option>
+            <option>Segurança Eletrônica</option>
+            <option>Advocacia / Contabilidade</option>
+            <option>Restaurantes / Delivery</option>
+            <option>Agências de Marketing</option>
+            <option>Construção / Reformas</option>
+            <option>Beleza / Estética / Spa</option>
+            <option>Academias / Estúdios</option>
+            <option>Corretoras de Seguros</option>
+            <option>Agências de Viagens</option>
+            <option>Consórcios</option>
+            <option>Pet Shop</option>
+            <option>Serviços B2B</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Descreva o que sua empresa faz <span class="req">*</span></label>
+          <textarea name="descricao" placeholder="Ex: Somos uma clínica odontológica especializada em implantes e estética dental, atendendo em Fortaleza há 12 anos. Temos 3 dentistas e agenda online..." required></textarea>
+        </div>
+        <div class="field">
+          <label>Como a Lia deve se apresentar?</label>
+          <input type="text" name="apresentacao" placeholder='Ex: "Olá! Sou a Lia, assistente da Clínica Sorrir. Como posso te ajudar?"'>
+          <span class="hint">Se deixar vazio, usaremos uma apresentação padrão baseada no seu segmento</span>
+        </div>
+        <div class="field">
+          <label>Tom de voz da Lia</label>
+          <div class="options-grid">
+            <div class="option-item"><input type="radio" name="tom" value="formal" id="t1"><label for="t1" class="option-label"><span class="option-emoji">👔</span> Formal e profissional<div class="option-check">✓</div></label></div>
+            <div class="option-item"><input type="radio" name="tom" value="amigavel" id="t2" checked><label for="t2" class="option-label"><span class="option-emoji">😊</span> Amigável e próximo<div class="option-check">✓</div></label></div>
+            <div class="option-item"><input type="radio" name="tom" value="descontraido" id="t3"><label for="t3" class="option-label"><span class="option-emoji">😄</span> Descontraído<div class="option-check">✓</div></label></div>
+            <div class="option-item"><input type="radio" name="tom" value="vendedor" id="t4"><label for="t4" class="option-label"><span class="option-emoji">🔥</span> Vendedor e direto<div class="option-check">✓</div></label></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 2: PRODUTOS/SERVIÇOS -->
+    <div class="form-section" style="animation-delay:.2s">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div>
+          <div class="section-title">Produtos e Serviços</div>
+          <div class="section-sub">O que a Lia vai vender e como apresentar</div>
+        </div>
+      </div>
+      <div class="fields-grid">
+        <div class="field">
+          <label>Liste seus principais serviços/produtos <span class="req">*</span></label>
+          <textarea name="servicos" placeholder="Ex:&#10;• Implante dentário — R$ 1.800 por dente&#10;• Clareamento a laser — R$ 890&#10;• Limpeza e manutenção — R$ 180&#10;• Aparelho ortodôntico — a partir de R$ 150/mês&#10;&#10;Quanto mais detalhe, melhor a Lia vai apresentar." required style="min-height:130px"></textarea>
+        </div>
+        <div class="field">
+          <label>Qual é o ticket médio do seu negócio?</label>
+          <select name="ticket">
+            <option value="">Selecione...</option>
+            <option>Até R$ 200</option>
+            <option>R$ 200 a R$ 500</option>
+            <option>R$ 500 a R$ 1.000</option>
+            <option>R$ 1.000 a R$ 3.000</option>
+            <option>R$ 3.000 a R$ 10.000</option>
+            <option>Acima de R$ 10.000</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>A Lia pode informar preços diretamente?</label>
+          <div class="options-grid">
+            <div class="option-item"><input type="radio" name="info_precos" value="sim" id="p1"><label for="p1" class="option-label"><span class="option-emoji">✅</span> Sim, pode informar<div class="option-check">✓</div></label></div>
+            <div class="option-item"><input type="radio" name="info_precos" value="nao" id="p2"><label for="p2" class="option-label"><span class="option-emoji">🔒</span> Não, só presencialmente<div class="option-check">✓</div></label></div>
+            <div class="option-item"><input type="radio" name="info_precos" value="qualificar" id="p3" checked><label for="p3" class="option-label"><span class="option-emoji">🎯</span> Só após qualificar<div class="option-check">✓</div></label></div>
+          </div>
+        </div>
+        <div class="info-box info-gold">
+          <div class="info-icon">✦</div>
+          <div>Recomendamos "Só após qualificar" — a Lia entende o contexto do lead antes de revelar preços, o que aumenta a taxa de conversão.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 3: PÚBLICO -->
+    <div class="form-section" style="animation-delay:.3s">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <div>
+          <div class="section-title">Público-alvo</div>
+          <div class="section-sub">Para a Lia qualificar os leads certeiros</div>
+        </div>
+      </div>
+      <div class="fields-grid">
+        <div class="field">
+          <label>Descreva seu cliente ideal <span class="req">*</span></label>
+          <textarea name="cliente_ideal" placeholder="Ex: Adultos entre 30-55 anos, renda média-alta, que buscam estética dental para melhorar autoestima. Geralmente chegam por indicação ou Google. Têm urgência quando sentem dor ou vão casar..." required></textarea>
+        </div>
+        <div class="field">
+          <label>Qual é a principal dor do seu cliente?</label>
+          <textarea name="dor_cliente" placeholder="Ex: Vergonha de sorrir, dentes manchados ou faltando, medo de dentista, não sabe o preço justo..."></textarea>
+        </div>
+        <div class="field">
+          <label>Quais leads a Lia deve priorizar?</label>
+          <div class="options-grid">
+            <div class="option-item"><input type="checkbox" name="prioridade" value="urgencia" id="pr1"><label for="pr1" class="option-label"><span class="option-emoji">🔥</span> Quem tem urgência<div class="option-check">✓</div></label></div>
+            <div class="option-item"><input type="checkbox" name="prioridade" value="budget" id="pr2"><label for="pr2" class="option-label"><span class="option-emoji">💰</span> Quem tem orçamento<div class="option-check">✓</div></label></div>
+            <div class="option-item"><input type="checkbox" name="prioridade" value="decidido" id="pr3"><label for="pr3" class="option-label"><span class="option-emoji">✅</span> Quem já decidiu<div class="option-check">✓</div></label></div>
+            <div class="option-item"><input type="checkbox" name="prioridade" value="pesquisando" id="pr4"><label for="pr4" class="option-label"><span class="option-emoji">🔍</span> Quem está pesquisando<div class="option-check">✓</div></label></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 4: AGENDAMENTO -->
+    <div class="form-section" style="animation-delay:.4s">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <div>
+          <div class="section-title">Agendamento</div>
+          <div class="section-sub">Como a Lia vai organizar sua agenda</div>
+        </div>
+      </div>
+      <div class="fields-grid">
+        <div class="field">
+          <label>Usa Google Calendar para agendamentos? <span class="req">*</span></label>
+          <div class="options-grid">
+            <div class="option-item"><input type="radio" name="usa_agenda" value="sim" id="a1" checked><label for="a1" class="option-label"><span class="option-emoji">📅</span> Sim, uso Google Calendar<div class="option-check">✓</div></label></div>
+            <div class="option-item"><input type="radio" name="usa_agenda" value="nao" id="a2"><label for="a2" class="option-label"><span class="option-emoji">❌</span> Não por enquanto<div class="option-check">✓</div></label></div>
+          </div>
+        </div>
+        <div class="field" id="emailCalendarioField">
+          <label>E-mail do Google Calendar <span class="req">*</span></label>
+          <input type="email" name="email_calendar" placeholder="seuemail@gmail.com" required>
+          <span class="hint">A Lia vai criar e consultar eventos nesse calendário automaticamente</span>
+        </div>
+        <div class="fields-grid fields-2">
+          <div class="field">
+            <label>Horário de início</label>
+            <select name="hora_inicio">
+              <option value="07:00">07:00</option>
+              <option value="08:00">08:00</option>
+              <option value="09:00" selected>09:00</option>
+              <option value="10:00">10:00</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Horário de encerramento</label>
+            <select name="hora_fim">
+              <option value="17:00">17:00</option>
+              <option value="18:00" selected>18:00</option>
+              <option value="19:00">19:00</option>
+              <option value="20:00">20:00</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Duração padrão de cada atendimento</label>
+          <select name="duracao">
+            <option value="30min">30 minutos</option>
+            <option value="45min">45 minutos</option>
+            <option value="1h" selected>1 hora</option>
+            <option value="1h30">1h30</option>
+            <option value="2h">2 horas</option>
+            <option value="variavel">Variável por serviço</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 5: OBJEÇÕES -->
+    <div class="form-section" style="animation-delay:.5s">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <div>
+          <div class="section-title">Objeções e Diferenciais</div>
+          <div class="section-sub">Onde a Lia mais converte — não pule essa parte</div>
+        </div>
+      </div>
+      <div class="fields-grid">
+        <div class="field">
+          <label>Objeções mais comuns e como você responde <span class="req">*</span></label>
+          <textarea name="objecoes" placeholder='Ex:&#10;"Tá caro" → "Nosso implante tem garantia vitalícia, diferente dos concorrentes. Parcelamos em 12x."&#10;"Vou pensar" → "Entendo! Posso reservar um horário para você ver pessoalmente sem compromisso?"&#10;"Já tenho dentista" → "Ótimo! A gente complementa. Nossa especialidade é estética, diferente do tratamento geral."' required style="min-height:140px"></textarea>
+        </div>
+        <div class="field">
+          <label>3 maiores diferenciais da sua empresa</label>
+          <textarea name="diferenciais" placeholder="Ex:&#10;1. Único implante com garantia vitalícia da região&#10;2. Atendimento em menos de 24h&#10;3. Parcelamos em até 24x sem juros"></textarea>
+        </div>
+        <div class="info-box info-orange">
+          <div class="info-icon">⚡</div>
+          <div>Não subestime essa seção. A quebra de objeções é onde a Lia mais converte. Quanto mais contexto você der, mais ela vai fechar vendas.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 6: CONFIGURAÇÕES FINAIS -->
+    <div class="form-section" style="animation-delay:.6s">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <div>
+          <div class="section-title">Configurações Finais</div>
+          <div class="section-sub">Últimos detalhes para ativar sua Lia</div>
+        </div>
+      </div>
+      <div class="fields-grid">
+        <div class="field">
+          <label>WhatsApp que vai usar com a Lia <span class="req">*</span></label>
+          <input type="tel" name="whatsapp_lia" placeholder="(85) 99999-9999" required>
+          <span class="hint">Esse número ficará conectado 24h. Recomendamos um chip exclusivo para a Lia.</span>
+        </div>
+        <div class="field">
+          <label>Conteúdo para a base de conhecimento (RAG)</label>
+          <div class="options-grid">
+            <div class="option-item"><input type="checkbox" name="rag" value="precos" id="r1"><label for="r1" class="option-label"><span class="option-emoji">💰</span> Tabela de preços<div class="option-check">✓</div></label></div>
+            <div class="option-item"><input type="checkbox" name="rag" value="servicos" id="r2"><label for="r2" class="option-label"><span class="option-emoji">📋</span> Lista de serviços<div class="option-check">✓</div></label></div>
+            <div class="option-item"><input type="checkbox" name="rag" value="faq" id="r3"><label for="r3" class="option-label"><span class="option-emoji">❓</span> FAQ<div class="option-check">✓</div></label></div>
+            <div class="option-item"><input type="checkbox" name="rag" value="politicas" id="r4"><label for="r4" class="option-label"><span class="option-emoji">📜</span> Políticas<div class="option-check">✓</div></label></div>
+            <div class="option-item"><input type="checkbox" name="rag" value="catalogo" id="r5"><label for="r5" class="option-label"><span class="option-emoji">📁</span> Catálogo<div class="option-check">✓</div></label></div>
+            <div class="option-item"><input type="checkbox" name="rag" value="outro" id="r6"><label for="r6" class="option-label"><span class="option-emoji">📎</span> Outro<div class="option-check">✓</div></label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Observações adicionais</label>
+          <textarea name="obs" placeholder="Ex: Não informar preços sem antes qualificar. Encaminhar emergências para (85) 99999-0000. A Lia nunca deve mencionar promoções encerradas..."></textarea>
+        </div>
+        <div class="info-box info-cyan">
+          <div class="info-icon">✦</div>
+          <div><strong style="color:var(--warm)">Após o envio:</strong> nossa equipe entra em contato em até 24h para alinhar os detalhes e iniciar a configuração da sua Lia.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 7: ACESSO AO DASHBOARD -->
+    <div class="form-section" style="animation-delay:.7s">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <div>
+          <div class="section-title">Acesso ao Dashboard</div>
+          <div class="section-sub">Crie suas credenciais para o painel LIA CONTROL</div>
+        </div>
+      </div>
+      <div class="fields-grid">
+        <div class="field">
+          <label>Qual email você quer usar para acessar o LIA CONTROL? <span class="req">*</span></label>
+          <input type="email" name="email_dashboard" placeholder="seuemail@empresa.com" required>
+          <span class="hint">Use um email que você acessa diariamente</span>
+        </div>
+        <div class="field">
+          <label>Crie uma senha de acesso <span class="req">*</span></label>
+          <input type="password" name="senha_dashboard" id="senhaDashboard" placeholder="Mínimo 8 caracteres" minlength="8" required>
+          <div class="password-strength" id="passwordStrength">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+          <span class="hint">Mínimo 8 caracteres. Você pode alterar depois.</span>
+        </div>
+        <div class="info-box info-gold">
+          <div class="info-icon">✦</div>
+          <div>Após o envio, você receberá acesso ao seu painel <strong style="color:var(--warm)">LIA CONTROL</strong> em <strong style="color:var(--warm)">dashboard.impulsomkt.cloud</strong> com suas conversas, leads e relatórios em tempo real.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-section">
+      <h2 class="submit-title">Tudo pronto?</h2>
+      <p class="submit-sub">Revise suas respostas e envie.<br>Em breve sua Lia estará trabalhando por você.</p>
+      <button type="submit" class="btn-submit" id="btnSubmit">
+        Enviar e ativar minha Lia →
+      </button>
+      <p class="submit-note">Seus dados são tratados com total segurança e confidencialidade.</p>
+    </div>
+
+  </form>
+</main>
+
+<script>
+function updateProgress(){
+  const form=document.getElementById('onboardingForm');
+  const required=form.querySelectorAll('[required]');
+  let filled=0;
+  required.forEach(el=>{
+    if(el.type==='radio'){
+      const g=form.querySelectorAll(`[name="${el.name}"]`);
+      if(Array.from(g).some(r=>r.checked))filled++;
+    }else if(el.value.trim())filled++;
+  });
+  const pct=Math.round((filled/required.length)*100);
+  document.getElementById('progressFill').style.width=pct+'%';
+  const sections=document.querySelectorAll('.form-section');
+  const scrollY=window.scrollY+100;
+  let cur=1;
+  sections.forEach((s,i)=>{if(s.offsetTop<=scrollY)cur=i+1});
+  document.getElementById('currentStep').textContent=Math.min(cur,7);
+}
+document.addEventListener('input',updateProgress);
+document.addEventListener('change',updateProgress);
+window.addEventListener('scroll',updateProgress);
+
+// Password strength indicator
+document.getElementById('senhaDashboard').addEventListener('input',function(){
+  const val=this.value;
+  const bars=document.querySelectorAll('#passwordStrength .bar');
+  bars.forEach(b=>b.className='bar');
+  if(val.length===0)return;
+  let strength=0;
+  if(val.length>=8)strength++;
+  if(/[A-Z]/.test(val)&&/[a-z]/.test(val))strength++;
+  if(/[0-9]/.test(val)||/[^A-Za-z0-9]/.test(val))strength++;
+  const cls=strength<=1?'weak':strength===2?'medium':'strong';
+  for(let i=0;i<strength;i++)bars[i].classList.add(cls);
+});
+
+function submitForm(e){
+  e.preventDefault();
+  const btn=document.getElementById('btnSubmit');
+  btn.disabled=true;
+  btn.textContent='Enviando...';
+
+  const form=document.getElementById('onboardingForm');
+  const data=new FormData(form);
+  const obj={};
+  data.forEach((v,k)=>{
+    if(obj[k])obj[k]=Array.isArray(obj[k])?[...obj[k],v]:[obj[k],v];
+    else obj[k]=v;
+  });
+
+  fetch('https://n8n.impulsomkt.cloud/webhook/onboarding-liatend',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(obj)
+  })
+  .then(()=>{
+    const s=document.getElementById('successScreen');
+    s.style.display='flex';
+    s.style.animation='fadeIn .5s both';
+    window.scrollTo(0,0);
+  })
+  .catch(()=>{
+    btn.disabled=false;
+    btn.textContent='Enviar e ativar minha Lia →';
+    alert('Erro ao enviar. Tente novamente.');
+  });
+}
+
+document.querySelectorAll('[name=usa_agenda]').forEach(r=>{
+  r.addEventListener('change',()=>{
+    const f=document.getElementById('emailCalendarioField');
+    const inp=f.querySelector('input');
+    if(r.value==='nao'&&r.checked){f.style.opacity='.35';inp.required=false}
+    else{f.style.opacity='1';inp.required=true}
+  });
+});
+
+// Section active state on scroll
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('active');
+      e.target.style.opacity='1';
+      e.target.style.transform='translateY(0)';
+    }
+  });
+},{threshold:.15});
+document.querySelectorAll('.form-section').forEach(s=>{
+  s.style.opacity='0';
+  s.style.transform='translateY(24px)';
+  s.style.transition='opacity .65s ease, transform .65s ease';
+  obs.observe(s);
+});
+</script>
+</body>
+</html>
