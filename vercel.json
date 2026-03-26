@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/atendimento", "destination": "/index.html" },
+    { "source": "/juridico", "destination": "/index.html" },
+    { "source": "/", "destination": "/index.html" }
+  ]
+}
