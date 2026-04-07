@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LiAtend — Configuração da sua IA</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 28 28'%3E%3Cpolygon points='14,2 26,14 14,26 2,14' fill='none' stroke='%23C9A84C' stroke-width='2'/%3E%3Ccircle cx='14' cy='14' r='3' fill='%23C9A84C'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,700&family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -108,7 +107,14 @@ select option{background:var(--bg2);color:var(--warm)}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @media(max-width:600px){.fields-2{grid-template-columns:1fr}.header{padding:0 20px}.main{padding:40px 16px 100px}.plan-grid{grid-template-columns:1fr}}
 </style>
-</head>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#080808" />
+  </head>
 <body>
 <header class="header"><a href="#" class="logo"><svg class="logo-svg" width="28" height="28" viewBox="0 0 28 28" fill="none"><polygon points="14,2 26,14 14,26 2,14" fill="none" stroke="url(#lg)" stroke-width="1.5"/><polygon points="14,6 22,14 14,22 6,14" fill="url(#lg2)" opacity=".3"/><circle cx="14" cy="14" r="2.8" fill="#C9A84C"/><defs><linearGradient id="lg" x1="2" y1="2" x2="26" y2="26"><stop stop-color="#C9A84C"/><stop offset="1" stop-color="#E8C96A"/></linearGradient><linearGradient id="lg2" x1="6" y1="6" x2="22" y2="22"><stop stop-color="#C9A84C"/><stop offset="1" stop-color="#080808"/></linearGradient></defs></svg><div><div class="logo-text"><span>Lia</span>Atend</div><div class="logo-sub" id="logoSub"></div></div></a><div class="header-right"><span class="product-badge" id="productBadge"></span><div class="step-pill"><span class="step-dot"></span>Etapa <span id="currentStep">1</span> de <span id="totalSteps">7</span></div></div></header>
 <div class="progress-wrap"><div class="progress-fill" id="progressFill"></div></div>
